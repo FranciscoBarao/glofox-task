@@ -1,0 +1,27 @@
+version: '3'
+services:
+  glofox-task:
+    container_name: glofox-task
+    build: src/.
+    ports:
+      - 8080:8080
+    restart: on-failure
+    environment:
+      PORT: '8080'
+    env_file:
+      - src/.env
+    depends_on:
+      - glofox-task-db
+
+  glofox-task-db:
+    image: postgres
+    restart: always
+    container_name: glofox-task-db
+    ports:
+      - '5432:5432'
+    env_file:
+      - src/.env
+    # volumes: 
+    #  - glofox-task-data:/var/lib/postgresql/data
+# volumes:
+  # glofox-task-data:
