@@ -13,3 +13,14 @@ Flow:
 
 ### Improvements:
 Implementation of a Service layer that would abstract business logic creating the flow ```controller -> service -> repository -> dbImplementation -> db```
+
+
+## Implementation Details
+
+Decoding JSON body based on: [Parse a request body](https://www.alexedwards.net/blog/how-to-properly-parse-a-json-request-body)
+
+
+### Endpoints
+curl -X POST http://localhost:8080/api/booking -H 'Content-Type: application/json' -d '{"name":"john", "date":"2006-01-02"}' 
+
+curl -X POST http://localhost:8080/api/class -H 'Content-Type: application/json' -d '{"name":"Aerobics", "start_date":"2006-01-02", "end_date":"2006-01-02", "capacity":10 }' 

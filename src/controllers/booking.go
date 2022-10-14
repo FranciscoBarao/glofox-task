@@ -5,7 +5,10 @@ import (
 
 	"github.com/unrolled/render"
 
+	"glofox-task/middleware"
+	"glofox-task/models"
 	"glofox-task/repositories"
+	"glofox-task/utils"
 )
 
 // Declaring the repository interface in the controller package allows us to easily swap out the actual implementation, enforcing loose coupling.
@@ -24,5 +27,22 @@ func InitBookingController(bookingRepo *repositories.BookingRepository) *Booking
 }
 
 func (controller *BookingController) Create(w http.ResponseWriter, r *http.Request) {
-	render.New().JSON(w, http.StatusOK, "Booking Create")
+
+	// Body to Booking Struct
+	var booking models.Booking
+	if err := utils.DecodeJSONBody(w, r, &booking); err != nil {
+		middleware.ErrorHandler(w, err)
+		return
+	}
+
+	// Validate Booking input
+	if err := utils.ValidateStruct(&booking); err != nil {
+		middleware.ErrorHandler(w, err)
+		return
+	}
+
+	// Calls create on repository
+	controller.repo.Create()
+
+	render.New().JSON(w, http.StatusOK, booking)
 }
