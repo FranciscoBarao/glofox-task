@@ -1,10 +1,13 @@
 package models
 
+import "gorm.io/gorm"
+
 type Class struct {
-	Name      string     `json:"name" valid:"required, alphanum, maxstringlength(50)"`
-	StartDate CustomTime `json:"start_date" valid:"required"`
-	EndDate   CustomTime `json:"end_date" valid:"required"`
-	Capacity  int        `json:"capacity" valid:"required, int, range(1,100)"`
+	gorm.Model `json:"-"`
+	Name       string     `json:"name" valid:"required, alphanum, maxstringlength(50)"`
+	StartDate  CustomTime `json:"start_date" valid:"required" gorm:"embedded"`
+	EndDate    CustomTime `json:"end_date" valid:"required" gorm:"embedded"`
+	Capacity   int        `json:"capacity" valid:"required, int, range(1,100)"`
 }
 
 func (class *Class) NewClass(name string, startDate CustomTime, endDate CustomTime, capacity int) Class {

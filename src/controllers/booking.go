@@ -13,7 +13,8 @@ import (
 
 // Declaring the repository interface in the controller package allows us to easily swap out the actual implementation, enforcing loose coupling.
 type bookingRepository interface {
-	Create() error
+	Create(model *models.Booking) error
+	ReadAll() ([]models.Booking, error)
 }
 
 type BookingController struct {
@@ -42,7 +43,19 @@ func (controller *BookingController) Create(w http.ResponseWriter, r *http.Reque
 	}
 
 	// Calls create on repository
-	controller.repo.Create()
+	controller.repo.Create(&booking)
 
 	render.New().JSON(w, http.StatusOK, booking)
+}
+
+func (controller *BookingController) GetAll(w http.ResponseWriter, r *http.Request) {
+
+	// Calls create on repository
+	bookings, err := controller.repo.ReadAll()
+	if err != nil {
+		middleware.ErrorHandler(w, err)
+		return
+	}
+
+	render.New().JSON(w, http.StatusOK, bookings)
 }

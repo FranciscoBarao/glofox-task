@@ -9,14 +9,22 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	"glofox-task/controllers"
+	"glofox-task/database"
 	"glofox-task/repositories"
 	"glofox-task/routers"
 )
 
 func main() {
 
+	// Connect to Database
+	db, err := database.Connect()
+	if err != nil {
+		log.Println("Error occurred while connecting to database")
+		return
+	}
+
 	// Initialize repositories and controllers
-	repos := repositories.InitRepositories("db")
+	repos := repositories.InitRepositories(db)
 	ctrls := controllers.InitControllers(repos)
 
 	// Creates routing

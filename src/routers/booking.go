@@ -8,4 +8,5 @@ import (
 
 func AddBookingRouter(router chi.Router, bookingController *controllers.BookingController) {
 	router.Post("/api/booking", bookingController.Create)
+	router.Get("/api/bookings", bookingController.GetAll)
 }

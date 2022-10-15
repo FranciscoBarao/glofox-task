@@ -1,15 +1,17 @@
 package repositories
 
+import "glofox-task/database"
+
 type ClassRepository struct {
-	db string
+	db *database.PostgresqlRepository
 }
 
-func NewClassRepository(instance string) *ClassRepository {
+func NewClassRepository(instance *database.PostgresqlRepository) *ClassRepository {
 	return &ClassRepository{
 		db: instance,
 	}
 }
 
-func (svc *ClassRepository) Create() (string, error) {
+func (repo *ClassRepository) Create() (string, error) {
 	return "CLASS", nil
 }

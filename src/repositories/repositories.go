@@ -1,5 +1,7 @@
 package repositories
 
+import "glofox-task/database"
+
 // Repositories contains all the repositories structs
 type Repositories struct {
 	BookingRepository *BookingRepository
@@ -7,7 +9,7 @@ type Repositories struct {
 }
 
 // InitRepositories should be called in main.go
-func InitRepositories(db string) *Repositories {
+func InitRepositories(db *database.PostgresqlRepository) *Repositories {
 	bookingRepository := NewBookingRepository(db)
 	classRepository := NewClassRepository(db)
 
