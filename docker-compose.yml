@@ -6,15 +6,13 @@ services:
     ports:
       - 8080:8080
     restart: on-failure
-    environment:
-      PORT: '8080'
     env_file:
       - src/.env
     depends_on:
       - glofox-task-db
 
   glofox-task-db:
-    image: postgres
+    image: postgres:15-alpine
     restart: always
     container_name: glofox-task-db
     ports:
