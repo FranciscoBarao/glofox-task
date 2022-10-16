@@ -43,7 +43,10 @@ func (controller *BookingController) Create(w http.ResponseWriter, r *http.Reque
 	}
 
 	// Calls create on repository
-	controller.repo.Create(&booking)
+	if err := controller.repo.Create(&booking); err != nil {
+		middleware.ErrorHandler(w, err)
+		return
+	}
 
 	render.New().JSON(w, http.StatusOK, booking)
 }

@@ -93,7 +93,7 @@ func ValidateStruct(value interface{}) error {
 	_, err := govalidator.ValidateStruct(value)
 	if err != nil {
 		log.Println("Error - Model validation failed: " + err.Error())
-		return middleware.NewCustomError(http.StatusForbidden, "Error occurred, model validation failed")
+		return middleware.NewCustomError(http.StatusBadRequest, "Error occurred, model validation failed")
 	}
 	return nil
 }

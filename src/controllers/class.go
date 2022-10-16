@@ -43,7 +43,10 @@ func (controller *ClassController) Create(w http.ResponseWriter, r *http.Request
 	}
 
 	// Calls create on repository
-	controller.repo.Create(&class)
+	if err := controller.repo.Create(&class); err != nil {
+		middleware.ErrorHandler(w, err)
+		return
+	}
 
 	render.New().JSON(w, http.StatusOK, class)
 }

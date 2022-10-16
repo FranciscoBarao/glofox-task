@@ -1,27 +1,28 @@
 package middleware
 
-import "strconv"
+import "encoding/json"
 
 type CustomError struct {
-	status  int
-	message string
+	Status  int    `json:"status"`
+	Message string `json:"message"`
 }
 
 func NewCustomError(status int, message string) *CustomError {
 	return &CustomError{
-		status:  status,
-		message: message,
+		Status:  status,
+		Message: message,
 	}
 }
 
 func (ce *CustomError) Error() string {
-	return ce.message
+	return ce.Message
 }
 
 func (ce *CustomError) GetStatus() int {
-	return ce.status
+	return ce.Status
 }
 
 func (ce *CustomError) GetMessage() string {
-	return strconv.Itoa(ce.status) + " - " + ce.message
+	b, _ := json.Marshal(ce)
+	return string(b)
 }

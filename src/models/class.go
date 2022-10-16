@@ -8,7 +8,7 @@ type Class struct {
 	StartDate  CustomTime `json:"start_date" valid:"required" gorm:"embedded;embeddedPrefix:start_date_"`
 	EndDate    CustomTime `json:"end_date" valid:"required" gorm:"embedded;embeddedPrefix:end_date_"`
 	Capacity   int        `json:"capacity" valid:"required, int, range(1|100)"`
-	Bookings   []Booking
+	Bookings   []Booking  `json:"omitempty"`
 }
 
 func (class *Class) NewClass(name string, startDate CustomTime, endDate CustomTime, capacity int) Class {

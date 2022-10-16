@@ -36,7 +36,7 @@ func (repo *BookingRepository) Create(booking *models.Booking) error {
 	// Check if not overbooking
 	if class.IsOverbooking(int(count) + 1) {
 		log.Println("Error - Overbooking class: " + fmt.Sprintf("%v", class))
-		return middleware.NewCustomError(http.StatusBadRequest, "Overbooking")
+		return middleware.NewCustomError(http.StatusBadRequest, "Overbooking - Too many bookings for that class")
 	}
 
 	// Setting one-to-many relation
