@@ -19,6 +19,7 @@ type PostgresqlRepository struct {
 	db *gorm.DB
 }
 
+// Method that aims to create the connection to the Database.
 func Connect() (*PostgresqlRepository, error) {
 	config, err := getConfig()
 	if err != nil {

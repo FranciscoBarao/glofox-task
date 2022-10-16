@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.20.0 // indirect
 	github.com/go-openapi/spec v0.20.6 // indirect
@@ -39,6 +40,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/golang/gddo v0.0.0-20210115222349-20d68f94ee1f
+	github.com/steinfletcher/apitest v1.5.13
 	github.com/swaggo/http-swagger v1.3.3
 	golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c // indirect
 	gorm.io/driver/postgres v1.4.4
