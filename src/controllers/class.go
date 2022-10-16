@@ -27,6 +27,13 @@ func InitClassController(bookingRepo *repositories.ClassRepository) *ClassContro
 	}
 }
 
+// Create Class godoc
+// @Summary 	Creates a Class based on a json body
+// @Tags 		classes
+// @Produce 	json
+// @Param 		data body models.Class true "The input Class struct"
+// @Success 	200 {object} models.Class
+// @Router 		/class [post]
 func (controller *ClassController) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Body to Class Struct
@@ -51,6 +58,12 @@ func (controller *ClassController) Create(w http.ResponseWriter, r *http.Request
 	render.New().JSON(w, http.StatusOK, class)
 }
 
+// Get Classes godoc
+// @Summary 	Fetches all Classes
+// @Tags 		classes
+// @Produce 	json
+// @Success 	200 {object} models.Class
+// @Router 		/class [get]
 func (controller *ClassController) GetAll(w http.ResponseWriter, r *http.Request) {
 
 	// Calls create on repository

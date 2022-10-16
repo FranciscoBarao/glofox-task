@@ -3,12 +3,12 @@ package models
 import "gorm.io/gorm"
 
 type Class struct {
-	gorm.Model `json:"-"`
-	Name       string     `json:"name" valid:"required, alphanum, maxstringlength(50)"`
-	StartDate  CustomTime `json:"start_date" valid:"required" gorm:"embedded;embeddedPrefix:start_date_"`
-	EndDate    CustomTime `json:"end_date" valid:"required" gorm:"embedded;embeddedPrefix:end_date_"`
-	Capacity   int        `json:"capacity" valid:"required, int, range(1|100)"`
-	Bookings   []Booking
+	gorm.Model `json:"-" swaggerignore:"true"`
+	Name       string     `json:"name" example:"Aerobics" valid:"required, alphanum, maxstringlength(50)"`
+	StartDate  CustomTime `json:"start_date" example:"2022-01-01" swaggertype:"primitive,string" valid:"required" gorm:"embedded;embeddedPrefix:start_date_"`
+	EndDate    CustomTime `json:"end_date" example:"2022-01-03" swaggertype:"primitive,string" valid:"required" gorm:"embedded;embeddedPrefix:end_date_"`
+	Capacity   int        `json:"capacity" example:"10" valid:"required, int, range(1|100)"`
+	Bookings   []Booking  `json:"bookings,omitempty"`
 }
 
 func (class *Class) NewClass(name string, startDate CustomTime, endDate CustomTime, capacity int) Class {

@@ -7,6 +7,6 @@ import (
 )
 
 func AddClassRouter(router chi.Router, classController *controllers.ClassController) {
-	router.Post("/api/classes", classController.Create)
-	router.Get("/api/classes", classController.GetAll)
+	router.Post("/api/class", classController.Create)
+	router.Get("/api/class", classController.GetAll)
 }

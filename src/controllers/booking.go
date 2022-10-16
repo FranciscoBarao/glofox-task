@@ -27,6 +27,13 @@ func InitBookingController(bookingRepo *repositories.BookingRepository) *Booking
 	}
 }
 
+// Create Booking godoc
+// @Summary 	Creates a Booking based on a json body
+// @Tags 		bookings
+// @Produce 	json
+// @Param 		data body models.Booking true "The input Booking struct"
+// @Success 	200 {object} models.Booking
+// @Router 		/booking [post]
 func (controller *BookingController) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Body to Booking Struct
@@ -51,6 +58,12 @@ func (controller *BookingController) Create(w http.ResponseWriter, r *http.Reque
 	render.New().JSON(w, http.StatusOK, booking)
 }
 
+// Get Bookings godoc
+// @Summary 	Fetches all Bookings
+// @Tags 		bookings
+// @Produce 	json
+// @Success 	200 {object} models.Booking
+// @Router 		/booking [get]
 func (controller *BookingController) GetAll(w http.ResponseWriter, r *http.Request) {
 
 	// Calls create on repository

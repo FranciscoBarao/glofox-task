@@ -5,8 +5,11 @@ import (
 	"net/http"
 	"os"
 
+	_ "glofox-task/docs" // Swagger requires this
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 
 	"glofox-task/controllers"
 	"glofox-task/database"
@@ -14,6 +17,14 @@ import (
 	"glofox-task/routers"
 )
 
+// @title Glofox-task App Swagger
+// @version 1.0
+// @description This is a task for an interview
+
+// @contact.name Francisco Barao Santos
+// @contact.email s.franciscobarao@gmail.com
+
+// @BasePath /api/
 func main() {
 
 	// Connect to Database
@@ -34,6 +45,9 @@ func main() {
 	// Adds Routers
 	routers.AddBookingRouter(router, ctrls.BookingController)
 	routers.AddClassRouter(router, ctrls.ClassController)
+
+	// Documentation for developers
+	router.Get("/swagger/*", httpSwagger.Handler())
 
 	// Starts server
 	port, portPresent := os.LookupEnv("PORT")

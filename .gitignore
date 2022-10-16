@@ -24,3 +24,6 @@ go.work
 ### Go Patch ###
 /vendor/
 /Godeps/
+
+# Ignore swagger files
+docs/ 

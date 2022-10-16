@@ -54,8 +54,6 @@ func getConfig() (string, error) {
 		log.Println("Error occurred while fetching env vars")
 		return "", errors.New("error occurred while fetching env vars")
 	}
-
-	log.Println("host=" + host + " user=" + user + " password=" + pass + " dbname=" + dbname + " port=" + port)
 	return "host=" + host + " user=" + user + " password=" + pass + " dbname=" + dbname + " port=" + port, nil
 }
 
