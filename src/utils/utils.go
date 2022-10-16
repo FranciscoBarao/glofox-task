@@ -14,7 +14,13 @@ import (
 	"github.com/golang/gddo/httputil/header"
 )
 
-// Method that decodes the JSON body into a struct after validating it against a number of checks
+/* Method that decodes the JSON body into a struct after validating it against a number of checks like
+Content-type must be application/json
+Bodies must be under 1MB
+No extra fields besides struct
+Don't allow several JSON objects
+Unmarshalling errors (Bad types, malformed json, empty request)
+*/
 func DecodeJSONBody(w http.ResponseWriter, r *http.Request, dst interface{}) error {
 
 	if r.Header.Get("Content-Type") != "" { // Only allow requests with application/json as header

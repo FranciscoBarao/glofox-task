@@ -13,7 +13,8 @@ import (
 
 // Declaring the repository interface in the controller package allows us to easily swap out the actual implementation, enforcing loose coupling.
 type classRepository interface {
-	Create() (string, error)
+	Create(class *models.Class) error
+	ReadAll() ([]models.Class, error)
 }
 
 type ClassController struct {
@@ -42,7 +43,19 @@ func (controller *ClassController) Create(w http.ResponseWriter, r *http.Request
 	}
 
 	// Calls create on repository
-	controller.repo.Create()
+	controller.repo.Create(&class)
 
 	render.New().JSON(w, http.StatusOK, class)
+}
+
+func (controller *ClassController) GetAll(w http.ResponseWriter, r *http.Request) {
+
+	// Calls create on repository
+	classes, err := controller.repo.ReadAll()
+	if err != nil {
+		middleware.ErrorHandler(w, err)
+		return
+	}
+
+	render.New().JSON(w, http.StatusOK, classes)
 }
