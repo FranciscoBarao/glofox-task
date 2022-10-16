@@ -2,11 +2,12 @@ package repositories
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
 	"glofox-task/database"
 	"glofox-task/middleware"
 	"glofox-task/models"
-	"log"
-	"net/http"
 )
 
 type BookingRepository struct {
@@ -21,9 +22,14 @@ func NewBookingRepository(instance *database.PostgresqlRepository) *BookingRepos
 
 func (repo *BookingRepository) Create(booking *models.Booking) error {
 
+	// The following 3 checks should be on a service layer since they are Business logic. Additionally, that would abstract the ClassRepository misuse we have here.
+
 	// Check if class exists
 	var class models.Class
 	if err := repo.db.ReadByCondition(&class, "start_date_time <= ? AND end_date_time >= ?", booking.GetDate(), booking.GetDate()); err != nil {
+		if err.Error() == "Record not found" { // So that the message is not a generic "Record not found"
+			return middleware.NewCustomError(http.StatusNotFound, "Class Not Found - There is no Class on the provided date")
+		}
 		return err
 	}
 
@@ -36,7 +42,7 @@ func (repo *BookingRepository) Create(booking *models.Booking) error {
 	// Check if not overbooking
 	if class.IsOverbooking(int(count) + 1) {
 		log.Println("Error - Overbooking class: " + fmt.Sprintf("%v", class))
-		return middleware.NewCustomError(http.StatusBadRequest, "Overbooking - Too many bookings for that class")
+		return middleware.NewCustomError(http.StatusConflict, "Overbooking - Too many bookings for that class")
 	}
 
 	// Setting one-to-many relation

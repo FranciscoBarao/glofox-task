@@ -3,8 +3,6 @@ package database
 import (
 	"errors"
 	"fmt"
-	"glofox-task/middleware"
-	"glofox-task/models"
 	"log"
 	"net/http"
 	"os"
@@ -12,6 +10,9 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+
+	"glofox-task/middleware"
+	"glofox-task/models"
 )
 
 type PostgresqlRepository struct {
@@ -93,7 +94,8 @@ func (instance *PostgresqlRepository) ReadByCondition(value interface{}, conditi
 		log.Println("Error while reading a database entry using condition: " + condition)
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			log.Println("Error Record not found with condition: " + condition + " and variables: " + fmt.Sprintf("%v", variables...))
-			return middleware.NewCustomError(http.StatusNotFound, "Record Not found")
+
+			return middleware.NewCustomError(http.StatusNotFound, "Record not found")
 		}
 		return result.Error
 	}

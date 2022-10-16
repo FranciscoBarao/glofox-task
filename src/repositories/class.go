@@ -21,13 +21,15 @@ func NewClassRepository(instance *database.PostgresqlRepository) *ClassRepositor
 
 func (repo *ClassRepository) Create(class *models.Class) error {
 
+	// The following checks should be on a service layer since they are Business logic
+
 	// Check if dates are available by checking if any date overlaps with new dates
 	var exists models.Class
 	repo.db.ReadByCondition(&exists, "start_date_time BETWEEN ? AND ? OR end_date_time BETWEEN ? AND ?", class.GetStartDate(), class.GetEndDate(), class.GetStartDate(), class.GetEndDate())
 
 	if exists.GetID() != 0 { // No date exists
-		log.Println("Error - overlapping classes: " + fmt.Sprintf("%v", class) + " and " + fmt.Sprintf("%v", exists))
-		return middleware.NewCustomError(http.StatusBadRequest, "Overlapping - New class overlapps with another already existing class")
+		log.Println("Error - Overlapping classes: " + fmt.Sprintf("%v", class) + " and " + fmt.Sprintf("%v", exists))
+		return middleware.NewCustomError(http.StatusConflict, "Overlapping - New class overlapps with another already existing class")
 	}
 
 	return repo.db.Create(class)
