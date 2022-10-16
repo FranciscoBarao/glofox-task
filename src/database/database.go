@@ -19,7 +19,7 @@ type PostgresqlRepository struct {
 	db *gorm.DB
 }
 
-// Method that aims to create the connection to the Database.
+// Method that aims to create the connection to the Database
 func Connect() (*PostgresqlRepository, error) {
 	config, err := getConfig()
 	if err != nil {
@@ -42,6 +42,7 @@ func Connect() (*PostgresqlRepository, error) {
 	return &PostgresqlRepository{db}, nil
 }
 
+// Method that loads env variables and creates the connection url for GORM to access Postgres
 func getConfig() (string, error) {
 	log.Println("Fetching env vars for Database")
 
@@ -58,6 +59,7 @@ func getConfig() (string, error) {
 	return "host=" + host + " user=" + user + " password=" + pass + " dbname=" + dbname + " port=" + port, nil
 }
 
+// Create method that receives a model and adds it to the database
 func (instance *PostgresqlRepository) Create(model interface{}) error {
 
 	result := instance.db.Create(model)
@@ -73,6 +75,7 @@ func (instance *PostgresqlRepository) Create(model interface{}) error {
 	return nil
 }
 
+// ReadAll method that fills the provided slice with all the entries found on the database
 func (instance *PostgresqlRepository) ReadAll(model interface{}) error {
 
 	result := instance.db.Preload(clause.Associations).Find(model)
@@ -85,8 +88,10 @@ func (instance *PostgresqlRepository) ReadAll(model interface{}) error {
 	return nil
 }
 
+// Read method that fills the provided model with the entry found.
 func (instance *PostgresqlRepository) ReadByCondition(value interface{}, condition string, variables ...interface{}) error {
 
+	// Where is used since we are looking using fields that are not primary keys
 	result := instance.db.Where(condition, variables...).First(value)
 
 	if result.Error != nil {
@@ -103,6 +108,7 @@ func (instance *PostgresqlRepository) ReadByCondition(value interface{}, conditi
 	return nil
 }
 
+// Count method that fills the provided integer with the number of entries found that fulfill the specified query
 func (instance *PostgresqlRepository) Count(value interface{}, count *int64, condition string, variables ...interface{}) error {
 
 	result := instance.db.Model(value).Where(condition, variables...).Count(count)
@@ -116,6 +122,7 @@ func (instance *PostgresqlRepository) Count(value interface{}, count *int64, con
 	return nil
 }
 
+// Delete method that deletes an entry from the database
 func (instance *PostgresqlRepository) Delete(value interface{}) error {
 
 	result := instance.db.Delete(value)
