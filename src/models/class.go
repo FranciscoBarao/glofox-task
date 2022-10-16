@@ -8,7 +8,7 @@ type Class struct {
 	StartDate  CustomTime `json:"start_date" valid:"required" gorm:"embedded;embeddedPrefix:start_date_"`
 	EndDate    CustomTime `json:"end_date" valid:"required" gorm:"embedded;embeddedPrefix:end_date_"`
 	Capacity   int        `json:"capacity" valid:"required, int, range(1|100)"`
-	Bookings   []Booking  `json:"omitempty"`
+	Bookings   []Booking
 }
 
 func (class *Class) NewClass(name string, startDate CustomTime, endDate CustomTime, capacity int) Class {
@@ -26,6 +26,14 @@ func (class *Class) GetName() string {
 
 func (class *Class) GetID() uint {
 	return class.ID
+}
+
+func (class *Class) GetStartDate() string {
+	return class.StartDate.Format("2006-01-02")
+}
+
+func (class *Class) GetEndDate() string {
+	return class.EndDate.Format("2006-01-02")
 }
 
 func (class *Class) IsOverbooking(count int) bool {
